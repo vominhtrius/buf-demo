@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package bank.v1;
+
+option go_package="github.com/vominhtrius/buf-demo/bank-module/genproto/bank/v1;bankv1";
+
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+message Bank {
+  int32 id = 1;
+  string name = 2;
+}
+
+message GetBankRequest {
+  int32 id = 1;
+}
+
+message GetBankResponse{
+  Bank data = 1;
+}
+
+service BankService {
+  rpc GetBank(GetBankRequest) returns (GetBankResponse) {
+    option (google.api.http) = {
+      get: "/v1/banks/{id}",
+    };
+  }
+}

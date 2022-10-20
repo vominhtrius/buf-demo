@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  title: admin/v1/admin.proto
+  version: version not set
+tags:
+  - name: AdminService
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /v1/foos:
+    get:
+      operationId: AdminService_ListFoos
+      responses:
+        "200":
+          description: A successful response.
+          schema:
+            $ref: '#/definitions/v1ListFoosResponse'
+        default:
+          description: An unexpected error response.
+          schema:
+            $ref: '#/definitions/rpcStatus'
+      tags:
+        - AdminService
+definitions:
+  protobufAny:
+    type: object
+    properties:
+      '@type':
+        type: string
+    additionalProperties: {}
+  rpcStatus:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      details:
+        type: array
+        items:
+          $ref: '#/definitions/protobufAny'
+      message:
+        type: string
+  v1Bank:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+  v1Foo:
+    type: object
+    properties:
+      bank:
+        $ref: '#/definitions/v1Bank'
+  v1ListFoosResponse:
+    type: object
+    properties:
+      foo:
+        $ref: '#/definitions/v1Foo'

@@ -1,0 +1,41 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/vominhtrius/buf-demo/admin-module/genproto
+    except:
+      - buf.build/envoyproxy/protoc-gen-validate
+      - buf.build/googleapis/googleapis
+      - buf.build/vominhtrius/bank-module
+#    override:
+#      buf.build/chatviet/payment: gitlab.com/chat-viet/shared-go/payment/genproto
+plugins:
+  - name: go
+    out: ../genproto
+    opt:
+      - paths=source_relative
+  - name: go-grpc
+    out: ../genproto
+    opt:
+      - paths=source_relative
+  - name: grpc-gateway
+    out: ../genproto
+    opt:
+      - paths=source_relative
+      - standalone=false
+#      - grpc_api_configuration=usermgt/staff/v1/config_http.yaml
+  - remote: buf.build/jirkad/plugins/protoc-gen-validate:v0.6.7
+    out: ../genproto
+    opt:
+      - lang=go
+      - paths=source_relative
+  - name: openapiv2
+    out: ../swagger
+    strategy: all
+    opt:
+#      - grpc_api_configuration=usermgt/staff/v1/config_http.yaml
+      - logtostderr=true
+#      - use_go_templates=true
+      - allow_merge=true
+      - merge_file_name=payment-admin
+      - output_format=yaml
